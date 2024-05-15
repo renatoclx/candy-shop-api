@@ -3,6 +3,7 @@ package com.crud.candyshopapi.controllers;
 import com.crud.candyshopapi.domain.produto.Produto;
 import com.crud.candyshopapi.domain.produto.ProdutoRepository;
 import com.crud.candyshopapi.domain.produto.RequestProduto;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/produto")
+@CrossOrigin
 public class ProdutoController {
 
     @Autowired
@@ -45,7 +47,7 @@ public class ProdutoController {
             produto.setPrecoVenda(data.precoVenda());
 
             return ResponseEntity.ok(produto);
-        } else return ResponseEntity.notFound().build();
+        } else throw new EntityNotFoundException();
     }
 
     @DeleteMapping("/{id}")
@@ -58,6 +60,6 @@ public class ProdutoController {
             produto.setAtivo(0);
 
             return ResponseEntity.noContent().build();
-        } else return ResponseEntity.notFound().build();
+        } else throw new EntityNotFoundException();
     }
 }
